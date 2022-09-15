@@ -1,9 +1,14 @@
 # leetcode-code-resources
 ## Table of Contents
-1. [Combine Two Tables](#combine-two-tables)
-2. [Second Highest Salary](#second-highest-salary)
+1. [Easy](#easy)
+   1. [Combine Two Tables](#combine-two-tables)
+   2. [Employees Earning More Than Their Managers](#employees-earning-more-than-their-managers)
+   3. [Duplicate Emails](#duplicate-emails)
+2. [Medium](#medium)
+   1. [Second Highest Salary](#second-highest-salary)
 ---
-## Combine Two Tables
+## Easy
+### Combine Two Tables
 Table `Person`:
 ```
 +-------------+---------+
@@ -44,8 +49,98 @@ ON p.personId = a.personId;
 | Bob       | Alice    | New York City | New York |
 +-----------+----------+---------------+----------+
 ```
+### Employees Earning More Than Their Managers
+Write an SQL query to find the employees who earn more than their managers.
 
-## Second Highest Salary
+**Example**
+```
+Input: 
+Employee table:
++----+-------+--------+-----------+
+| id | name  | salary | managerId |
++----+-------+--------+-----------+
+| 1  | Joe   | 70000  | 3         |
+| 2  | Henry | 80000  | 4         |
+| 3  | Sam   | 60000  | Null      |
+| 4  | Max   | 90000  | Null      |
++----+-------+--------+-----------+
+
+Output: 
++----------+
+| Employee |
++----------+
+| Joe      |
++----------+
+```
+**Explanation**: Joe is the only employee who earns more than his manager.
+
+**Solution**
+```sql
+SELECT name AS Employee
+FROM Employee AS e1
+WHERE salary > (
+    SELECT salary 
+    FROM Employee AS e2 
+    WHERE e2.id = e1.managerId
+);
+```
+
+### Duplicate Emails
+Table `Person`:
+```text
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| id          | int     |
+| email       | varchar |
++-------------+---------+
+```
+Write an SQL query to report all the duplicate emails.
+
+**Solution**
+```sql
+SELECT email AS Email
+FROM Person
+GROUP BY email
+HAVING COUNT(email) > 1
+```
+
+**Note**: Remember to use `HAVING` for aggregate operations (i.e., after `GROUP`ing).
+
+### Customers Who Never Order
+Table `Customers`:
+```text
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| id          | int     |
+| name        | varchar |
++-------------+---------+
+```
+
+Table `Orders`:
+```text
++-------------+------+
+| Column Name | Type |
++-------------+------+
+| id          | int  |
+| customerId  | int  |
++-------------+------+
+```
+Write an SQL query to report all customers who never order anything.
+
+**Note**: Essentially, report all the customers whose `id`s are not in the `customerId` column or `Orders`.
+
+**Solution**
+```sql
+SELECT c.name AS Customers
+FROM Customers AS c
+LEFT JOIN Orders AS o ON o.customerId = c.id
+WHERE o.customerId IS NULL;
+```
+
+## Medium
+### Second Highest Salary
 Table `Employee`:
 ```
 +-------------+------+
