@@ -187,6 +187,35 @@ FROM Activity
 GROUP BY player_id;
 ```
 
+### Rising Temperature
+
+Table `Weather`:
+```text
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| id            | int     |
+| recordDate    | date    |
+| temperature   | int     |
++---------------+---------+
+```
+
+Write an SQL query to find all dates' `Id` with higher temperatures compared to its previous dates (yesterday).
+
+**Solution**
+
+```sql
+SELECT Weather.id AS Id
+FROM Weather
+JOIN Weather w
+ON DATEDIFF(Weather.recordDate, w.recordDate) = 1
+WHERE Weather.temperature > w.temperature;
+```
+
+**Notes** 
+- Use `DATEDIFF` to get the rows where the previous row's date has a difference of 1.
+- Join the table with itself when we need to get extra information within the table.
+
 ## Medium
 ### Second Highest Salary
 Table `Employee`:
