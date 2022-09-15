@@ -1,7 +1,8 @@
 # leetcode-code-resources
 ## Table of Contents
 1. [Combine Two Tables](#combine-two-tables)
-
+2. [Second Highest Salary](#second-highest-salary)
+---
 ## Combine Two Tables
 Table `Person`:
 ```
@@ -42,4 +43,25 @@ ON p.personId = a.personId;
 | Allen     | Wang     | Null          | Null     |
 | Bob       | Alice    | New York City | New York |
 +-----------+----------+---------------+----------+
+```
+
+## Second Highest Salary
+Table `Employee`:
+```
++-------------+------+
+| Column Name | Type |
++-------------+------+
+| id          | int  |
+| salary      | int  |
++-------------+------+
+```
+Write an SQL query to report the second-highest salary from the `Employee` table. If there is no second highest salary, the query should report `null`.
+
+**Solution**
+```sql
+SELECT MAX(salary) AS SecondHighestSalary
+FROM Employee
+WHERE salary < (
+    SELECT MAX(salary) FROM Employee
+)
 ```
