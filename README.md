@@ -7,6 +7,7 @@
    4. [Customers Who Never Order](#customers-who-never-order)
    5. [Delete Duplicate Emails](#delete-duplicate-emails)
    6. [First Login Date](#first-login-date)
+   7. [Rising Temperature](#rising-temperature)
 2. [Medium](#medium)
    1. [Second Highest Salary](#second-highest-salary)
    2. [Department Highest Salary](#department-highest-salary)
