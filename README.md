@@ -232,6 +232,7 @@ Table `Department`:
 +-------------+---------+
 ```
 Write an SQL query to find employees who have the highest salary in each of the departments.
+
 **Solution**
 ```sql
 SELECT d.name AS Department, e.name AS Employee, e.salary AS Salary
