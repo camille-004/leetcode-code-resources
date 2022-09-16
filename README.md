@@ -8,6 +8,7 @@
    5. [Delete Duplicate Emails](#delete-duplicate-emails)
    6. [First Login Date](#first-login-date)
    7. [Rising Temperature](#rising-temperature)
+   8. [Customer Placing the Largest Number of Orders](#customer-placing-the-largest-number-of-orders)
 2. [Medium](#medium)
    1. [Second Highest Salary](#second-highest-salary)
    2. [Department Highest Salary](#department-highest-salary)
@@ -216,6 +217,129 @@ WHERE Weather.temperature > w.temperature;
 **Notes** 
 - Use `DATEDIFF` to get the rows where the previous row's date has a difference of 1.
 - Join the table with itself when we need to get extra information within the table.
+
+### Customer Placing the Largest Number of Orders
+Table `Orders`:
+```text
++-----------------+----------+
+| Column Name     | Type     |
++-----------------+----------+
+| order_number    | int      |
+| customer_number | int      |
++-----------------+----------+
+```
+
+**Example**
+```text
+Input:
+Orders table:
++--------------+-----------------+
+| order_number | customer_number |
++--------------+-----------------+
+| 1            | 1               |
+| 2            | 2               |
+| 3            | 3               |
+| 4            | 3               |
++--------------+-----------------+
+
+Output:
++-----------------+
+| customer_number |
++-----------------+
+| 3               |
++-----------------+
+```
+
+**Explanation**: The customer with number 3 has two orders, which is greater than either customer 1 or 2 because each of them only has one order.
+So the result is `customer_number` 3.
+
+**Solution**
+
+```sql
+SELECT customer_number
+FROM ORDERS
+GROUP BY customer_number
+ORDER BY COUNT(*) DESC
+LIMIT 1;
+```
+
+### Classes More Than 5 Students
+Table `Courses`:
+```text
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| student     | varchar |
+| class       | varchar |
++-------------+---------+
+```
+Write an SQL query to report all the classes that have **at least five students**.
+
+**Solution**
+```sql
+SELECT class
+FROM Courses
+GROUP BY class
+HAVING COUNT(*) >= 5;
+```
+
+### Sales Person
+
+Table `SalesPerson`:
+```text
++-----------------+---------+
+| Column Name     | Type    |
++-----------------+---------+
+| sales_id        | int     |
+| name            | varchar |
+| salary          | int     |
+| commission_rate | int     |
+| hire_date       | date    |
++-----------------+---------+
+```
+
+Table `Company`:
+```text
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| com_id      | int     |
+| name        | varchar |
+| city        | varchar |
++-------------+---------+
+```
+
+Table `Orders`:
+```text
++-------------+------+
+| Column Name | Type |
++-------------+------+
+| order_id    | int  |
+| order_date  | date |
+| com_id      | int  |
+| sales_id    | int  |
+| amount      | int  |
++-------------+------+
+```
+
+Write an SQL query to report the names of all the salespersons who did not have any orders related to the company with the name **"RED"**.
+
+**Solution**
+
+```sql
+SELECT name
+FROM SalesPerson AS p
+WHERE sales_id
+NOT IN (
+    SELECT sales_id
+    FROM Orders AS o
+    LEFT JOIN Company AS c
+    ON o.com_id = c.com_id
+    WHERE c.name = "RED"
+);
+```
+
+**Note**: Helpful to start with the innermost table (i.e., bottom `WHERE` clause with column hardest to access) then work upwards.
 
 ## Medium
 ### Second Highest Salary
