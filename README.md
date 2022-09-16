@@ -9,6 +9,8 @@
    6. [First Login Date](#first-login-date)
    7. [Rising Temperature](#rising-temperature)
    8. [Customer Placing the Largest Number of Orders](#customer-placing-the-largest-number-of-orders)
+   9. [Classes More Than 5 Students](#classes-more-than-5-students)
+   10. [Sales Person](#sales-person)
 2. [Medium](#medium)
    1. [Second Highest Salary](#second-highest-salary)
    2. [Department Highest Salary](#department-highest-salary)
