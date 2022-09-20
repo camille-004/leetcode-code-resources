@@ -11,6 +11,9 @@
    8. [Customer Placing the Largest Number of Orders](#customer-placing-the-largest-number-of-orders)
    9. [Classes More Than 5 Students](#classes-more-than-5-students)
    10. [Sales Person](#sales-person)
+   11. [Not Boring Movies](#not-boring-movies)
+   12. [Swap Salary](#swap-salary)
+   13. [Sales Analysis](#sales-analysis)
 2. [Medium](#medium)
    1. [Second Highest Salary](#second-highest-salary)
    2. [Department Highest Salary](#department-highest-salary)
@@ -342,6 +345,126 @@ NOT IN (
 ```
 
 **Note**: Helpful to start with the innermost table (i.e., bottom `WHERE` clause with column hardest to access) then work upwards.
+
+### Not Boring Movies
+
+Table `Cinema`:
+
+```text
++----------------+----------+
+| Column Name    | Type     |
++----------------+----------+
+| id             | int      |
+| movie          | varchar  |
+| description    | varchar  |
+| rating         | float    |
++----------------+----------+
+```
+
+Write an SQL query to report the movies with an odd-numbered ID and a description that is not "`boring`". Return the result table ordered by `rating` **in descending order**.
+
+**Solution**
+
+```sql
+SELECT *
+FROM Cinema
+WHERE id % 2 = 1
+AND description != 'boring'
+ORDER BY rating DESC;
+```
+
+### Swap Salary
+
+Table `Salary`
+```text
++-------------+----------+
+| Column Name | Type     |
++-------------+----------+
+| id          | int      |
+| name        | varchar  |
+| sex         | ENUM     |
+| salary      | int      |
++-------------+----------+
+```
+
+Write an SQL query to swap all `f` and `m` values (i.e., change all `f` values to `m` and vice versa) with a **single update statement** and no intermediate temporary tables.
+
+**Solution**
+
+```sql
+UPDATE Salary
+SET sex = IF(sex='m', 'f', 'm');
+```
+
+**Note**: `IF` statement structure: `IF(condition, true_value, false_value)`
+
+### Actors and Directors Who Cooperated At Least Three Times
+
+Table `ActorDirector`:
+```text
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| actor_id    | int     |
+| director_id | int     |
+| timestamp   | int     |
++-------------+---------+
+```
+
+Write a SQL query for a report that provides the pairs `(actor_id, director_id)` where the actor has cooperated with the director at least three times.
+
+**Solution**
+
+```sql
+SELECT actor_id, director_id
+FROM ActorDirector
+GROUP BY actor_id, director_id
+HAVING COUNT(*) >= 3;
+```
+
+### Sales Analysis III
+
+Table `Product`:
+
+```text
++--------------+---------+
+| Column Name  | Type    |
++--------------+---------+
+| product_id   | int     |
+| product_name | varchar |
+| unit_price   | int     |
++--------------+---------+
+```
+
+Table `Sales`:
+
+```text
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| seller_id   | int     |
+| product_id  | int     |
+| buyer_id    | int     |
+| sale_date   | date    |
+| quantity    | int     |
+| price       | int     |
++-------------+---------+
+```
+
+Write an SQL query that reports the **products** that were **only** sold in the first quarter of `2019`. That is, between `2019-01-01` and `2019-03-31` inclusive.
+
+**Note**: Can't return anything that was sold in the first quarter AND outside the first quarter
+
+**Solution**
+
+```sql
+SELECT p.product_id, p.product_name
+FROM Sales s
+JOIN Product p ON s.product_id = p.product_id
+GROUP BY product_id
+HAVING MIN(sale_date) >= "2019-01-01" 
+AND MAX(sale_date) <= "2019-03-31";
+```
 
 ## Medium
 ### Second Highest Salary
